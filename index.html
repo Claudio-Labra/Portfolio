@@ -222,14 +222,11 @@
 
         .publications-carousel {
             display: flex;
-            gap: 2rem;
-            transition: transform 0.3s ease-out;
-            will-change: transform;
         }
 
         .publication-card {
-            min-width: 700px;
-            max-width: 700px;
+            min-width: 100%;
+            max-width: 100%;
             height: 500px;
             position: relative;
             border-radius: 12px;
@@ -964,60 +961,53 @@
 
         // Horizontal scroll with vertical mouse wheel for carousels
         class HorizontalCarousel {
-            constructor(carouselId, sectionId) {
-                this.carousel = document.getElementById(carouselId);
-                this.section = document.getElementById(sectionId);
-                this.scrollPosition = 0;
-                this.maxScroll = 0;
-                this.isScrolling = false;
-                
-                this.init();
+        constructor(carouselId, sectionId) {
+            this.carousel = document.getElementById(carouselId);
+            this.section = document.getElementById(sectionId);
+            this.cards = this.carousel.children;
+            this.index = 0;
+            this.locked = false;
+
+            this.init();
+        }
+
+        init() {
+            window.addEventListener('wheel', (e) => this.onWheel(e), { passive: false });
+        }
+
+        onWheel(e) {
+            const rect = this.section.getBoundingClientRect();
+            const inView = rect.top <= 0 && rect.bottom >= window.innerHeight;
+
+            if (!inView) return;
+
+            if (this.locked) return;
+
+            const direction = e.deltaY > 0 ? 1 : -1;
+
+            // límites
+            if ((this.index === 0 && direction === -1) ||
+                (this.index === this.cards.length - 1 && direction === 1)) {
+                return; // deja seguir el scroll normal
             }
 
-            init() {
-                if (!this.carousel || !this.section) return;
+            e.preventDefault();
 
-                // Calculate max scroll
-                this.updateMaxScroll();
-                window.addEventListener('resize', () => this.updateMaxScroll());
+            this.index += direction;
+            this.locked = true;
 
-                // Handle scroll
-                window.addEventListener('wheel', (e) => this.handleScroll(e), { passive: false });
-            }
+            this.carousel.style.transition = 'transform 0.6s ease';
+            this.carousel.style.transform = `translateX(-${this.index * 100}%)`;
 
-            updateMaxScroll() {
-                const containerWidth = this.carousel.parentElement.offsetWidth;
-                const contentWidth = this.carousel.scrollWidth;
-                this.maxScroll = Math.max(0, contentWidth - containerWidth);
-            }
-
-            handleScroll(e) {
-                const sectionRect = this.section.getBoundingClientRect();
-                const isInSection = sectionRect.top <= 0 && sectionRect.bottom >= window.innerHeight;
-
-                if (!isInSection) return;
-
-                const atStart = this.scrollPosition <= 0;
-                const atEnd = this.scrollPosition >= this.maxScroll;
-
-                // Allow normal scroll if at the boundaries
-                if ((atStart && e.deltaY < 0) || (atEnd && e.deltaY > 0)) {
-                    return;
-                }
-
-                // Prevent default and scroll horizontally
-                e.preventDefault();
-                
-                this.scrollPosition += e.deltaY * 2;
-                this.scrollPosition = Math.max(0, Math.min(this.scrollPosition, this.maxScroll));
-                
-                this.carousel.style.transform = `translateX(-${this.scrollPosition}px)`;
-            }
+            setTimeout(() => {
+                this.locked = false;
+            }, 700);
+        }
         }
 
         // Initialize carousels
-        const pubCarousel = new HorizontalCarousel('pubCarousel', 'publicaciones');
-        const essayCarousel = new HorizontalCarousel('essayCarousel', 'ensayos');
+        new SnapCarousel('pubCarousel', 'publicaciones');
+        new SnapCarousel('essayCarousel', 'ensayos');
 
         // Add animation on scroll for elements
         const observerOptions = {
