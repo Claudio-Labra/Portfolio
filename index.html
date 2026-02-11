@@ -210,11 +210,17 @@
         /* Horizontal scroll carousel sections */
         .carousel-section {
             position: relative;
+        }
+
+        .carousel-sticky {
+            position: sticky;
+            top: 0;
             height: 100vh;
+            overflow: hidden;
             display: flex;
             align-items: center;
         }
-
+        
         .carousel-wrapper {
             width: 100%;
             overflow: hidden;
@@ -589,10 +595,11 @@
     <!-- Publications Carousel Section -->
     <div class="section-wrapper">
         <section id="publicaciones" class="carousel-section">
-            <div style="width: 100%; max-width: 1400px; margin: 0 auto; padding: 0 2rem;">
-                <h2 class="section-title">Publicaciones Destacadas</h2>
-                <div class="carousel-wrapper">
-                    <div class="publications-carousel" id="pubCarousel">
+            <div class="carousel-sticky">
+                <div style="width: 100%; max-width: 1400px; margin: 0 auto; padding: 0 2rem;">
+                    <h2 class="section-title">Publicaciones Destacadas</h2>
+                    <div class="carousel-wrapper">
+                        <div class="publications-carousel" id="pubCarousel">
                         <!-- Publication 1 - Tesis -->
                         <div class="publication-card" onclick="window.open('publicacion-tesis.html', '_blank')">
                             <div class="publication-image">
@@ -722,6 +729,7 @@
     <!-- Essays Carousel Section -->
     <div class="section-wrapper colored">
         <section id="ensayos" class="carousel-section">
+            <div class="carousel-sticky">
             <div style="width: 100%; max-width: 1400px; margin: 0 auto; padding: 0 2rem;">
                 <h2 class="section-title">Ensayos y Trabajos Cortos</h2>
                 <div class="carousel-wrapper">
@@ -959,55 +967,35 @@
             });
         });
 
-        // Horizontal scroll with vertical mouse wheel for carousels
-        class HorizontalCarousel {
-        constructor(carouselId, sectionId) {
-            this.carousel = document.getElementById(carouselId);
-            this.section = document.getElementById(sectionId);
-            this.cards = this.carousel.children;
-            this.index = 0;
-            this.locked = false;
+                // Horizontal scroll with vertical mouse wheel for carousels
+                function setupScrollCarousel(sectionId, carouselId) {
+                const section = document.getElementById(sectionId);
+                const carousel = document.getElementById(carouselId);
+                const cards = carousel.children;
 
-            this.init();
+                const totalCards = cards.length;
+
+                // Altura virtual = cantidad de cards * altura de pantalla
+                    section.style.height = `${totalCards * 100}vh`;
+
+                window.addEventListener('scroll', () => {
+                const rect = section.getBoundingClientRect();
+                const scrollTop = window.scrollY;
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.offsetHeight;
+
+                // Si estamos dentro de la sección
+                if (scrollTop >= sectionTop && scrollTop <= sectionTop + sectionHeight) {
+                    const progress = (scrollTop - sectionTop) / sectionHeight;
+                    const moveX = progress * (totalCards - 1) * window.innerWidth;
+
+                    carousel.style.transform = `translateX(-${moveX}px)`;
+                }
+            });
         }
 
-        init() {
-            window.addEventListener('wheel', (e) => this.onWheel(e), { passive: false });
-        }
-
-        onWheel(e) {
-            const rect = this.section.getBoundingClientRect();
-            const inView = rect.top <= 0 && rect.bottom >= window.innerHeight;
-
-            if (!inView) return;
-
-            if (this.locked) return;
-
-            const direction = e.deltaY > 0 ? 1 : -1;
-
-            // límites
-            if ((this.index === 0 && direction === -1) ||
-                (this.index === this.cards.length - 1 && direction === 1)) {
-                return; // deja seguir el scroll normal
-            }
-
-            e.preventDefault();
-
-            this.index += direction;
-            this.locked = true;
-
-            this.carousel.style.transition = 'transform 0.6s ease';
-            this.carousel.style.transform = `translateX(-${this.index * 100}%)`;
-
-            setTimeout(() => {
-                this.locked = false;
-            }, 700);
-        }
-        }
-
-        // Initialize carousels
-        new SnapCarousel('pubCarousel', 'publicaciones');
-        new SnapCarousel('essayCarousel', 'ensayos');
+        setupScrollCarousel('publicaciones', 'pubCarousel');
+        setupScrollCarousel('ensayos', 'essayCarousel');
 
         // Add animation on scroll for elements
         const observerOptions = {
