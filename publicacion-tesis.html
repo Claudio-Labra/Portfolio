@@ -6,40 +6,52 @@
 <title>Tesis de Maestría – Claudio Labra</title>
 
 <style>
-    body{
-        margin:0;
-        background:black;
-        overflow-x:hidden;
-        font-family: sans-serif;
-    }
+body{
+    margin:0;
+    background:black;
+    overflow-x:hidden;
+    font-family:sans-serif;
+}
 
-    .slide{
-        height:100vh;
-        width:100%;
-        display:flex;
-        align-items:center;
-        justify-content:center;
-    }
+.viewer{
+    position:sticky;
+    top:0;
+    height:100vh;
+    overflow:hidden;
+}
 
-    .slide img{
-        width:100%;
-        height:100%;
-        object-fit:contain;
-    }
+.track{
+    display:flex;
+    height:100vh;
+}
 
-    .back{
-        position:fixed;
-        top:20px;
-        left:20px;
-        z-index:1000;
-        background:white;
-        padding:10px 18px;
-        border-radius:30px;
-        text-decoration:none;
-        color:black;
-        font-weight:600;
-        box-shadow:0 4px 15px rgba(0,0,0,0.3);
-    }
+.slide{
+    min-width:100vw;
+    height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.slide img{
+    width:100%;
+    height:100%;
+    object-fit:contain;
+}
+
+.back{
+    position:fixed;
+    top:20px;
+    left:20px;
+    z-index:1000;
+    background:white;
+    padding:10px 18px;
+    border-radius:30px;
+    text-decoration:none;
+    color:black;
+    font-weight:600;
+    box-shadow:0 4px 15px rgba(0,0,0,0.3);
+}
 </style>
 </head>
 
@@ -47,20 +59,42 @@
 
 <a class="back" href="index.html">← Volver al portfolio</a>
 
-<div id="slides"></div>
+<section id="scroller">
+    <div class="viewer">
+        <div class="track" id="track"></div>
+    </div>
+</section>
 
 <script>
-const totalSlides = 23;
+const totalSlides = 25;
 
-const container = document.getElementById('slides');
+const track = document.getElementById('track');
+const scroller = document.getElementById('scroller');
 
+// Crear slides dinámicamente
 for(let i=1; i<=totalSlides; i++){
     const num = String(i).padStart(2,'0');
     const div = document.createElement('div');
     div.className = 'slide';
     div.innerHTML = `<img src="tesis/img/slide-${num}.jpg">`;
-    container.appendChild(div);
+    track.appendChild(div);
 }
+
+// Altura virtual = cantidad de slides * altura pantalla
+scroller.style.height = `${totalSlides * 100}vh`;
+
+window.addEventListener('scroll', () => {
+    const rect = scroller.getBoundingClientRect();
+    const scrollTop = window.scrollY;
+    const start = scroller.offsetTop;
+    const height = scroller.offsetHeight;
+
+    if(scrollTop >= start && scrollTop <= start + height){
+        const progress = (scrollTop - start) / height;
+        const moveX = progress * (totalSlides - 1) * window.innerWidth;
+        track.style.transform = `translateX(-${moveX}px)`;
+    }
+});
 </script>
 
 </body>
