@@ -262,9 +262,18 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            opacity: 0.4;
+
+            /* Blanco y negro por defecto */
+            filter: grayscale(100%) contrast(1.1);
+            transition: transform 0.6s ease, filter 0.6s ease;
         }
 
+        /* Hover en la card */
+        .publication-card:hover .publication-image img {
+            transform: scale(1.08);
+            filter: grayscale(0%) contrast(1);
+        }
+        
         .publication-overlay {
             position: absolute;
             top: 0;
@@ -606,7 +615,10 @@
                         <!-- Publication 1 - Tesis -->
                         <div class="publication-card" onclick="window.open('publicacion-tesis.html', '_blank')">
                             <div class="publication-image">
-                                <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1400&h=1000&fit=crop" alt="Tesis Maestría">
+                                <img src="tesis/img/Guernica1.jpg" alt="Tesis Maestría">
+                                <span class="photo-credit">
+                                Fotografía de Leandro Teysseire, fuente página 12.
+                                </span>
                                 <div class="publication-overlay">
                                     <h3 class="publication-title">La producción de ciudad dual en el periurbano bonaerense</h3>
                                     <p class="publication-summary">
