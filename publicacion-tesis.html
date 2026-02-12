@@ -20,7 +20,8 @@ body{
     height:100vh;
     overflow:hidden;
     position:relative;
-    padding-bottom:70px;
+    padding-bottom:35px;
+    z-index:2;
 }
 
 .track{
@@ -117,7 +118,7 @@ body{
 
 /* 🎨 Cambiá este color */
 :root{
-    --zocalo-color: #e6e6e6;  /* ← CAMBIAR ACÁ */
+    --zocalo-color: #b17e83;  /* ← CAMBIAR ACÁ */
 }
 
 .zocalo{
@@ -125,9 +126,9 @@ body{
     bottom:0;
     left:0;
     width:100%;
-    height:70px;              /* ← altura editable */
+    height:35px;              /* ← altura editable */
     background:var(--zocalo-color);
-    z-index:500;
+    z-index:0;
 }
 
 /* Línea superior opcional tipo retícula académica */
@@ -137,7 +138,7 @@ body{
     top:0;
     left:0;
     width:100%;
-    height:2px;
+    height:0px;
     background:rgba(0,0,0,0.1);
 }
     
