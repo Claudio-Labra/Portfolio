@@ -20,6 +20,7 @@ body{
     height:100vh;
     overflow:hidden;
     position:relative;
+    padding-bottom:70px;
 }
 
 .track{
@@ -43,10 +44,9 @@ body{
 }
 
 .slide img{
-    width:100vw;
-    height:auto;
-    max-height:100vh;
-    object-fit:cover
+    width:100%;
+    height:100%;
+    object-fit:contain;
 }
 
 /* Back button */
@@ -111,6 +111,36 @@ body{
     opacity:0.6;
 }
 
+/* ============================= */
+/* ZÓCALO INFERIOR EDITABLE     */
+/* ============================= */
+
+/* 🎨 Cambiá este color */
+:root{
+    --zocalo-color: #e6e6e6;  /* ← CAMBIAR ACÁ */
+}
+
+.zocalo{
+    position:fixed;
+    bottom:0;
+    left:0;
+    width:100%;
+    height:70px;              /* ← altura editable */
+    background:var(--zocalo-color);
+    z-index:500;
+}
+
+/* Línea superior opcional tipo retícula académica */
+.zocalo::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:2px;
+    background:rgba(0,0,0,0.1);
+}
+    
 </style>
 </head>
 
@@ -127,6 +157,8 @@ body{
     <div class="track" id="track"></div>
 </div>
 
+<div class="zocalo"></div>
+    
 <script>
 const totalSlides = 25;
 let currentIndex = 0;
