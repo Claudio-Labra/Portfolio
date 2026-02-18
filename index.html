@@ -31,77 +31,77 @@
             overflow-x: hidden;
         }
 
-        /* Hero Section */
+        /* Hero Section — Estilo revista */
         .hero {
-            height: 100vh;
-            width: 100vw;
-            position: relative;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
             overflow: hidden;
-
-            background-image: url("tesis/img/hero.png");
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
         }
 
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0); /* oscurece la imagen */
+        /* Barra superior blanca con el nombre y subtítulo */
+        .hero-title-bar {
+            background: #ffffff;
+            padding: clamp(1rem, 3vw, 2rem) clamp(1.5rem, 4vw, 3rem) clamp(0.75rem, 2vw, 1.5rem);
+            line-height: 1;
         }
 
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
-        }
-
-        .hero-content {
-            position: absolute;  /* CLAVE */
-            top: 120px;          /* ajustable */
-            left: 80px;          /* ajustable */
-            z-index: 10;         /* asegura que quede encima */
-            text-align: left;
-            max-width: 700px;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .hero h1 {
+        .hero-title-bar h1 {
             font-family: 'Montserrat', sans-serif;
-            font-size: clamp(3rem, 8vw, 5.5rem);
-            font-weight: 700; /* antes 300 */
-            margin-bottom: 1rem;
-            letter-spacing: 1px;
-            animation: fadeInUp 1s ease-out 0.2s both;
+            font-size: clamp(3.5rem, 12vw, 9rem);
+            font-weight: 900;
+            color: #111111;
+            letter-spacing: -2px;
+            line-height: 1;
+            margin: 0 0 0.4rem 0;
+            animation: fadeInDown 0.8s ease-out both;
         }
 
-        .hero .subtitle {
-            font-size: clamp(1.1rem, 2.5vw, 1.5rem);
-            font-weight: 300;
-            margin-bottom: 2rem;
-            opacity: 0.9;
-            animation: fadeInUp 1s ease-out 0.4s both;
+        .hero-title-bar .hero-subtitle {
+            font-family: 'Work Sans', sans-serif;
+            font-size: clamp(0.8rem, 1.8vw, 1.1rem);
+            font-weight: 400;
+            color: #555;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin: 0;
+            animation: fadeInDown 0.8s ease-out 0.2s both;
         }
 
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Imagen — solo imagen, sin overlays */
+        .hero-image-block {
+            width: 100%;
+            height: clamp(320px, 55vw, 620px);
+            overflow: hidden;
+            animation: fadeIn 1s ease-out 0.3s both;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+
+        .hero-image-block img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+            display: block;
+        }
+
+        /* Indicador de scroll */
         .scroll-indicator {
-            position: absolute;
-            bottom: 3rem;
+            position: fixed;
+            bottom: 2rem;
             left: 50%;
             transform: translateX(-50%);
             animation: bounce 2s infinite;
+            z-index: 10;
         }
 
         @keyframes bounce {
@@ -114,6 +114,11 @@
             content: '↓';
             font-size: 2rem;
             color: var(--accent);
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
 
         /* Navigation */
