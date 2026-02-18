@@ -34,15 +34,14 @@
         /* Hero Section */
         .hero {
             height: 100vh;
-            width: 100vw; /* aseguramos ancho completo */
+            width: 100vw;
             position: relative;
             display: flex;
-            align-items: center;
-            justify-content: center;
+            align-items: flex-start;     /* antes center */
+            justify-content: flex-start; /* antes center */
             overflow: hidden;
 
-            /* IMAGEN DE FONDO */
-            background-image: url("tesis/img/hero.png"); /* ← CAMBIAR RUTA */
+            background-image: url("tesis/img/hero.png");
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -64,13 +63,13 @@
         }
 
         .hero-content {
-            position: relative;
+            position: absolute; /* antes relative */
+            top: 8rem;          /* separa del borde superior */
+            left: 4rem;         /* separa del borde izquierdo */
             z-index: 2;
-            text-align: center;
-            color: white;
-            max-width: 900px;
-            padding: 2rem;
-            animation: fadeInUp 1s ease-out;
+            text-align: left;   /* antes center */
+            color: black;
+            max-width: 700px;
         }
 
         @keyframes fadeInUp {
@@ -87,9 +86,9 @@
         .hero h1 {
             font-family: 'Montserrat', sans-serif;
             font-size: clamp(3rem, 8vw, 5.5rem);
-            font-weight: 300;
+            font-weight: 700; /* antes 300 */
             margin-bottom: 1rem;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
             animation: fadeInUp 1s ease-out 0.2s both;
         }
 
