@@ -36,9 +36,6 @@
             height: 100vh;
             width: 100vw;
             position: relative;
-            display: flex;
-            align-items: flex-start;     /* antes center */
-            justify-content: flex-start; /* antes center */
             overflow: hidden;
 
             background-image: url("tesis/img/hero.png");
@@ -63,12 +60,11 @@
         }
 
         .hero-content {
-            position: absolute; /* antes relative */
-            top: 8rem;          /* separa del borde superior */
-            left: 4rem;         /* separa del borde izquierdo */
-            z-index: 2;
-            text-align: left;   /* antes center */
-            color: black;
+            position: absolute;  /* CLAVE */
+            top: 120px;          /* ajustable */
+            left: 80px;          /* ajustable */
+            z-index: 10;         /* asegura que quede encima */
+            text-align: left;
             max-width: 700px;
         }
 
