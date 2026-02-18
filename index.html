@@ -25,7 +25,7 @@
         }
 
         body {
-            font-family: 'Work Sans', sans-serif;
+            font-family: 'Montserrat', sans-serif;
             color: var(--text-dark);
             background: var(--bg-light);
             overflow-x: hidden;
@@ -75,10 +75,13 @@
 
         /* Imagen — solo imagen, sin overlays */
         .hero-image-block {
-            image: url("tesis/img/hero.png");
+            background-image: url("tesis/img/hero.png");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+
             width: 100%;
             height: clamp(320px, 55vw, 620px);
-            overflow: hidden;
             animation: fadeIn 1s ease-out 0.3s both;
         }
 
